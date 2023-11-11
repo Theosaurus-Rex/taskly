@@ -11,9 +11,21 @@ interface Props {
 }
 
 const TodoCard: React.FC<Props> = ({ todo, todos, setTodos }) => {
+  const handleDone = (id: number) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
+      )
+    );
+  };
   return (
     <form className="todo__card">
-      <span className="todo__card--text">{todo.todo}</span>
+      {todo.isDone ? (
+        <s className="todo__card--text">{todo.todo}</s>
+      ) : (
+        <span className="todo__card--text">{todo.todo}</span>
+      )}
+
       <div>
         <span className="icon">
           <AiFillEdit />
@@ -21,7 +33,7 @@ const TodoCard: React.FC<Props> = ({ todo, todos, setTodos }) => {
         <span className="icon">
           <AiFillDelete />
         </span>
-        <span className="icon">
+        <span className="icon" onClick={() => handleDone(todo.id)}>
           <MdDone />
         </span>
       </div>
